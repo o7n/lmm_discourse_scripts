@@ -1,0 +1,3 @@
+#!/bin/bash
+echo '{ "insecure-registries":["dsc-bs-prod-1.b2pa.internal:5000"] }' > /etc/docker/daemon.json
+service docker restart

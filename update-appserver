@@ -1,0 +1,41 @@
+#!/bin/bash
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+
+source $DIR/.config
+
+docker pull dsc-bs-prod-1.b2pa.internal:5000/production:latest
+docker stop production
+docker rm production
+docker run --shm-size=512m -d --restart=always \
+    -e LANG=en_US.UTF-8 \
+    -e RAILS_ENV=production \
+    -e UNICORN_WORKERS=4 \
+    -e UNICORN_SIDEKIQS=1 \
+    -e RUBY_GLOBAL_METHOD_CACHE_SIZE=131072 \
+    -e RUBY_GC_HEAP_GROWTH_MAX_SLOTS=40000 \
+    -e RUBY_GC_HEAP_INIT_SLOTS=400000 \
+    -e RUBY_GC_HEAP_OLDOBJECT_LIMIT_FACTOR=1.5 \
+    -e DISCOURSE_DB_SOCKET= \
+    -e DISCOURSE_DB_HOST=127.0.0.1 \
+    -e DISCOURSE_REDIS_HOST=127.0.0.1 \
+    -e DISCOURSE_REDIS_SLAVE_HOST=127.0.0.1 \
+    -e DISCOURSE_REDIS_SLAVE_PORT=6380 \
+    -e DISCOURSE_DB_PORT= \
+    -e DISCOURSE_DEFAULT_LOCALE=en \
+    -e DISCOURSE_DEVELOPER_EMAILS=$DISCOURSE_DEVELOPER_EMAILS \
+    -e DISCOURSE_SMTP_ADDRESS=$DISCOURSE_SMTP_ADDRESS \
+    -e DISCOURSE_SMTP_PORT=$DISCOURSE_SMTP_PORT \
+    -e DISCOURSE_SMTP_USER_NAME=$DISCOURSE_SMTP_USER_NAME \
+    -e DISCOURSE_SMTP_PASSWORD=$DISCOURSE_SMTP_PASSWORD \
+    -e DISCOURSE_REDIS_PASSWORD=$DISCOURSE_REDIS_PASSWORD \
+    -e DISCOURSE_DB_PASSWORD=$DISCOURSE_DB_PASSWORD \
+    -e DISCOURSE_HOSTNAME=$DISCOURSE_HOSTNAME \
+    -h dsc-bs-prod-1-production \
+    -e DOCKER_HOST_IP=172.17.0.1 \
+    --name production \
+    -t \
+    -p 80:80 \
+    -v /mnt/production:/shared \
+    -v /mnt/production/log/var-log:/var/log \
+    --network host dsc-bs-prod-1.b2pa.internal:5000/production /sbin/boot
+
