@@ -1,0 +1,5 @@
+#!/bin/bash
+
+docker tag local_discourse/production localhost:5000/production:latest
+docker push localhost:5000/production:latest
+
