@@ -29,7 +29,6 @@ docker run --shm-size=512m -d --restart=always \
     -e DISCOURSE_SMTP_PASSWORD=$DISCOURSE_SMTP_PASSWORD \
     -e DISCOURSE_REDIS_PASSWORD=$DISCOURSE_REDIS_PASSWORD \
     -e DISCOURSE_DB_PASSWORD=$DISCOURSE_DB_PASSWORD \
-    -e DISCOURSE_HOSTNAME=$DISCOURSE_HOSTNAME \
     -h dsc-bs-prod-1-production \
     -e DOCKER_HOST_IP=172.17.0.1 \
     --name production \
