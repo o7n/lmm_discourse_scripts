@@ -1,0 +1,2 @@
+#!/bin/bash
+wget -q -O - 'http://localhost:7000/;csv'|awk -F, '{ print $1 " " $2 " " $18 " " $37}' |column -t|grep -v END|tail -4
