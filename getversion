@@ -1,0 +1,2 @@
+#!/bin/bash
+wget -q --content-on-error  -O -  --header "Host: community.bovada.lv" http://0/version |grep generator|awk -F\" '{print $4}'
