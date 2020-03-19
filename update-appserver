@@ -3,6 +3,7 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 source $DIR/config
 
+mkdir -p ~/shared/state
 mkdir -p ~/log/rails
 mkdir -p ~/log/var-log
 
@@ -40,5 +41,6 @@ docker run --shm-size=512m -d --restart=always \
     -v /mnt/production:/shared \
     -v /home/discourse/log/var-log:/var/log \
     -v /home/discourse/log/rails:/shared/log/rails \
+    -v /home/discourse/shared/state:/shared/state \
     --network host dsc-bs-prod-1.b2pa.internal:5000/production /sbin/boot
 
