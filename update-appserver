@@ -7,7 +7,7 @@ mkdir -p ~/shared/state
 mkdir -p ~/log/rails
 mkdir -p ~/log/var-log
 
-docker pull dsc-bs-prod-1.b2pa.internal:5000/production:latest
+docker pull $BUILDSERVER:5000/production:latest
 docker stop production
 docker rm production
 docker run --shm-size=512m -d --restart=always \
@@ -42,5 +42,5 @@ docker run --shm-size=512m -d --restart=always \
     -v /home/discourse/log/var-log:/var/log \
     -v /home/discourse/log/rails:/shared/log/rails \
     -v /home/discourse/shared/state:/shared/state \
-    --network host dsc-bs-prod-1.b2pa.internal:5000/production /sbin/boot
+    --network host $BUILDSERVER:5000/production /sbin/boot
 
