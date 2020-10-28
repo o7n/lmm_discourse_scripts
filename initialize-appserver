@@ -1,3 +1,6 @@
 #!/bin/bash
-echo '{ "insecure-registries":["dsc-bs-prod-1.b2pa.internal:5000"] }' > /etc/docker/daemon.json
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+source $DIR/config
+
+echo "{ \"insecure-registries\":[\"$BUILDSERVER:5000\"] }" > /etc/docker/daemon.json
 service docker restart

@@ -1,0 +1,13 @@
+#!/bin/bash
+if [ "$1" == "" ]; then
+  echo "Usage $0 <databasename>"
+  exit
+fi
+
+source config
+createdb  -h 127.0.0.1 -U postgres $1
+psql -h 127.0.0.1 -U postgres -c "grant all privileges on database $1 to discourse;"
+psql -h 127.0.0.1 -U postgres $1 -c "alter schema public owner to discourse;"
+psql -h 127.0.0.1 -U postgres $1 -c "create extension if not exists hstore;"
+psql -h 127.0.0.1 -U postgres $1 -c "create extension if not exists pg_trgm;"
+
